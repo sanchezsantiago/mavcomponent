@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import CreateCategory from "../CreateCategory/CreateCategory";
 
 const NavBar = () => {
+  const [array, setArray] = useState([]);
+  const updateArray = (newElement) => {
+    console.log(newElement);
+    if (Array.isArray(array)) {
+      setArray([...array, newElement]);
+    } else {
+      setArray([newElement]);
+    }
+    console.log(array);
+  };
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
@@ -16,8 +27,7 @@ const NavBar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              {/* <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link> */}
+
               <NavDropdown title="Constancias" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
@@ -31,6 +41,19 @@ const NavBar = () => {
                   Separated link
                 </NavDropdown.Item>
               </NavDropdown>
+              {array.length > 0 && (
+                <>
+                  {array.map((element, index) => (
+                    <NavDropdown
+                      key={index}
+                      title={element.title}
+                    ></NavDropdown>
+                  ))}
+                </>
+              )}
+              <Nav.Item>
+                <CreateCategory updateArray={updateArray} />
+              </Nav.Item>
             </Nav>
           </Navbar.Collapse>
         </Container>
